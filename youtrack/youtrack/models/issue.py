@@ -32,3 +32,12 @@ class YouTrackIssue(BaseModel):
     created: MillisecondsDatetime | None = None
     updated: MillisecondsDatetime | None = None
     custom_fields: list[YouTrackCustomField] = Field(alias="customFields", default_factory=list)
+
+    @property
+    def assignee_id(self) -> str | None:
+        """Get assignee id from issue."""
+        assignee_field = next((cf for cf in self.custom_fields if cf.name == "Assignee"), None)
+        if not assignee_field or not assignee_field.value:
+            msg = "Assignee field is empty"
+            raise ValueError(msg)
+        return str(assignee_field.value)
