@@ -3,21 +3,11 @@ from __future__ import annotations
 from pydantic import BaseModel, ConfigDict, Field
 
 from youtrack.models.common import MillisecondsDatetime  # noqa: TC001
-from youtrack.models.user import YouTrackUser  # noqa: TC001
 
 
 class YouTrackCustomField(BaseModel):
     name: str
-    value: (
-        str
-        | int
-        | dict[str, object]
-        | list[dict[str, object]]
-        | MillisecondsDatetime
-        | YouTrackUser
-        | list[YouTrackUser]
-        | None
-    ) = None
+    value: str | int | dict[str, object] | list[dict[str, object]] | None = None
 
     model_config = ConfigDict(populate_by_name=True)
 
