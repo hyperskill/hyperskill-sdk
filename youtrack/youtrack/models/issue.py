@@ -26,7 +26,7 @@ class YouTrackCustomField(BaseModel):
 
 
 class YouTrackIssue(BaseModel):
-    id = str
+    id: str
     id_readable: str | None = Field(alias="idReadable", default=None)
     summary: str | None = None
     created: MillisecondsDatetime | None = None
