@@ -16,10 +16,10 @@ logger = structlog.get_logger()
 class YouTrackClient:
     """Implementation of YouTrack API."""
 
-    def __init__(self, youtrack_token: str, youtrack_api_url: str) -> None:
+    def __init__(self, youtrack_api_url: str, youtrack_token: str) -> None:
         """Initialize YouTrack API client."""
-        self._token = youtrack_token
         self._api_url = youtrack_api_url
+        self._token = youtrack_token
         self._headers = {
             "Authorization": f"Bearer {self._token}",
             "Accept": "application/json",
