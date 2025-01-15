@@ -1,0 +1,164 @@
+[project]
+name = "youtrack"
+version = "0.1.0"
+description = ""
+authors = [
+    { name = "Hyperskill Team" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx (>=0.28.1,<0.29.0)",
+    "pydantic (>=2.10.5,<3.0.0)",
+    "structlog (>=24.4.0,<25.0.0)",
+]
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.14.1"
+ruff = "^0.9.1"
+pytest = "^8.3.4"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "ALL",
+]
+
+ignore = [
+    "ANN002", # Missing type annotation for `*args`
+    "ANN003", # Missing type annotation for `**extra_fields`
+    "BLE001", # Do not catch blind exception: Exception
+    "CPY001", # Missing copyright notice at top of file
+    "D100", # Missing docstring in public module
+    "D101", # Missing docstring in public class
+    "D104", # Missing docstring in public package
+    "D105", # Missing docstring in magic method
+    "D106", # Missing docstring in public nested class
+    "D107", # Missing docstring in __init__
+    "DOC201", # Add a "Returns" section to the docstring
+    "DOC402", # Add a "Yields" section to the docstring
+    "DOC501", # Raised exception `ValueError` missing from docstring
+    "FIX002", # Line contains TODO, consider resolving the issue
+    "TD002", # Missing author in TODO
+    "TD003", # Missing issue link on the line following this TODO
+    # Ruff format recommend disable trid rule
+    "COM812", # Trailing comma missing
+    "COM819", # Checks for the presence of prohibited trailing commas
+    "D206", # Docstring should be indented with spaces, not tabs
+    "D300", # Use """triple double quotes"""
+    "E111", # Indentation is not a multiple of four
+    "E114", # Indentation is not a multiple of four (comment)
+    "E117", # Over-indented
+    "ISC001", # Conflict with ruff format | Checks for implicitly concatenated strings on a single line.
+    "ISC002", # Checks for implicitly concatenated strings across multiple lines.
+    "Q000", # Conflict with ruff format | Remove bad quotes
+    "Q001", # Checks for multiline strings that use single quotes or double quotes
+    "Q002", # Checks for docstrings that use single quotes or double quotes
+    "Q003", # Conflict with ruff format | Change outer quotes to avoid escaping inner quotes
+    "W191", # Indentation contains tabs
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*.py" = ["S101", "PLR2004", "D103", "S105"]
+"**/conftest.py" = ["S101", "PLR2004", "D103"]
+
+[tool.ruff.lint.mccabe]
+#max-complexity = 1
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = [
+    "classmethod",
+]
+
+[tool.ruff.lint.pylint]
+#max-args = 1
+#max-branches = 1
+#max-returns = 1
+#max-statements = 1
+#max-locals = 1
+#max-bool-expr = 1
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+order-by-type = false
+required-imports = ["from __future__ import annotations"]
+split-on-trailing-comma = false
+
+[tool.mypy]
+python_version = "3.10"
+plugins = [
+]
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+explicit_package_bases = true
+ignore_errors = false
+ignore_missing_imports = true
+implicit_reexport = false
+strict_equality = true
+strict_optional = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+enable_incomplete_feature = [
+
+]
+
+exclude = [
+    "venv"
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "content_bi.settings"
+addopts = "--nomigrations --strict-markers --strict-config --disable-socket --allow-unix-socket"
+python_files = [
+    "tests.py",
+    "test_*.py"
+]
+testpaths = "apps"
+norecursedirs = [
+    ".*",
+    "deploy",
+    "node_modules",
+    "out",
+    "services",
+    "venv",
+]
