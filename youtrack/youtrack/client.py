@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-import http
 from typing import TYPE_CHECKING
 
 import httpx
 import structlog
 from httpx import Response
+
+from youtrack.youtrack.models.comment import YouTrackComment
+from youtrack.youtrack.models.issue import YouTrackIssue
+from youtrack.youtrack.models.user import YouTrackUser
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -25,21 +28,24 @@ class YouTrackClient:
             "Accept": "application/json",
         }
 
-    def get_issues(self, query: str, fields: Iterable[str]) -> list[dict[str, object]]:
+    def get_issues(self, query: str, fields: Iterable[str]) -> tuple[YouTrackIssue, ...]:
         """Get issues from YouTrack by query."""
         params = {
             "query": query,
             "fields": ",".join(fields),
         }
         response = self.get("issues", params)
-        return response.json() if response and response.status_code == http.HTTPStatus.OK else []
+        response.raise_for_status()
 
-    def get_issue_comments(self, issue_id: str) -> list[dict[str, object]]:
+        return tuple(YouTrackIssue(**issue) for issue in response.json())
+
+    def get_issue_comments(self, issue_id: str) -> tuple[YouTrackComment, ...]:
         """Get comments for an issue."""
         response = self.get(f"issues/{issue_id}/comments")
-        return response.json() if response and response.status_code == http.HTTPStatus.OK else []
+        response.raise_for_status()
+        return tuple(YouTrackComment(**comment) for comment in response.json())
 
-    def get_user(self, user_id: str) -> dict[str, object]:
+    def get_user(self, user_id: str) -> YouTrackUser:
         """Get user information from YouTrack.
 
         Args:
@@ -49,17 +55,11 @@ class YouTrackClient:
             Dictionary containing user information.
         """
         response = self.get(f"users/{user_id}")
-        return response.json() if response and response.status_code == http.HTTPStatus.OK else {}
+        response.raise_for_status()
+        return YouTrackUser(**response.json())
 
-    def get(self, endpoint: str, params: dict[str, str] | None = None) -> Response | None:
+    def get(self, endpoint: str, params: dict[str, str] | None = None) -> Response:
         """Send request to YouTrack API."""
-        try:
-            response = httpx.get(
-                f"{self._api_url}/{endpoint}", headers=self._headers, params=params
-            )
-            response.raise_for_status()
-        except httpx.RequestError:
-            logger.exception("Error making request to YouTrack API")
-            return None
-        else:
-            return response
+        response = httpx.get(f"{self._api_url}/{endpoint}", headers=self._headers, params=params)
+        response.raise_for_status()
+        return response
