@@ -1,6 +1,6 @@
 [project]
 name = "youtrack"
-version = "1.0.0"
+version = "1.4.0"
 description = ""
 authors = [
     { name = "Hyperskill Team" }
