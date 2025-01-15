@@ -27,4 +27,7 @@ class YouTrackIssue(BaseModel):
         if not assignee_field or not assignee_field.value:
             msg = "Assignee field is empty"
             raise ValueError(msg)
-        return str(assignee_field.value)
+        if not isinstance(assignee_field.value, dict):
+            msg = "Assignee field is not a dictionary"
+            raise TypeError(msg)
+        return str(assignee_field.value["id"])
