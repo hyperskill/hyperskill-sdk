@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from pydantic import BaseModel, ConfigDict, Field
 
-if TYPE_CHECKING:
-    from youtrack.youtrack.models.common import MillisecondsDatetime
-    from youtrack.youtrack.models.user import YouTrackUser
+from youtrack.models.common import MillisecondsDatetime  # noqa: TC001
+from youtrack.models.user import YouTrackUser  # noqa: TC001
 
 
 class YouTrackCustomField(BaseModel):

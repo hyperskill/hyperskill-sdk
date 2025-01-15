@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from pydantic import BaseModel
 
-if TYPE_CHECKING:
-    from youtrack.youtrack.models.common import MillisecondsDatetime
+from youtrack.models.common import MillisecondsDatetime  # noqa: TC001
 
 
 class YouTrackActivityItem(BaseModel):
