@@ -31,3 +31,7 @@ class YouTrackIssue(BaseModel):
             msg = "Assignee field is not a dictionary"
             raise TypeError(msg)
         return str(assignee_field.value["id"])
+
+    def get_field_by_name(self, name: str) -> YouTrackCustomField | None:
+        """Get custom field by name."""
+        return next((cf for cf in self.custom_fields if cf.name == name), None)
