@@ -6,10 +6,10 @@ import httpx
 import structlog
 from httpx import Response
 
-from youtrack.youtrack.models.activity import YouTrackActivityItem
-from youtrack.youtrack.models.comment import YouTrackComment
-from youtrack.youtrack.models.issue import YouTrackIssue
-from youtrack.youtrack.models.user import YouTrackUser
+from youtrack.models.activity import YouTrackActivityItem
+from youtrack.models.comment import YouTrackComment
+from youtrack.models.issue import YouTrackIssue
+from youtrack.models.user import YouTrackUser
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
