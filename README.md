@@ -16,7 +16,7 @@ poetry:
 
 ```toml
 [tool.poetry.dependencies]
-youtrack = { git = "https://github.com/hyperskill/hyperskill-sdk.git", rev = "1.0.0", subdirectory = "youtrack" }
+youtrack = { git = "https://github.com/hyperskill/hyperskill-sdk.git", tag = "1.0.0", subdirectory = "youtrack" }
 ```
 
 ```bash
