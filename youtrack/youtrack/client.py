@@ -6,6 +6,7 @@ import httpx
 import structlog
 from httpx import Response
 
+from youtrack.youtrack.models.activity import YouTrackActivityItem
 from youtrack.youtrack.models.comment import YouTrackComment
 from youtrack.youtrack.models.issue import YouTrackIssue
 from youtrack.youtrack.models.user import YouTrackUser
@@ -57,6 +58,19 @@ class YouTrackClient:
         response = self.get(f"users/{user_id}")
         response.raise_for_status()
         return YouTrackUser(**response.json())
+
+    def get_activities(
+        self, issue_id: str, categories: Iterable[str], fields: Iterable[str]
+    ) -> tuple[YouTrackActivityItem, ...]:
+        """Get activities for an issue."""
+        url = f"issues/{issue_id}/activities"
+        params = {
+            "categories": ",".join(categories),
+            "fields": ",".join(fields),
+        }
+        response = self.get(url, params=params)
+        response.raise_for_status()
+        return tuple(YouTrackActivityItem(**activity) for activity in response.json())
 
     def get(self, endpoint: str, params: dict[str, str] | None = None) -> Response:
         """Send request to YouTrack API."""

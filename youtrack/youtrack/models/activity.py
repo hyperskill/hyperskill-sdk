@@ -9,5 +9,5 @@ if TYPE_CHECKING:
 
 
 class YouTrackActivityItem(BaseModel):
-    timestamp: MillisecondsDatetime
-    fixed_state: int | None = None
+    id: str
+    timestamp: MillisecondsDatetime | None = None

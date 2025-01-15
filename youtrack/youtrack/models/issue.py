@@ -26,8 +26,9 @@ class YouTrackCustomField(BaseModel):
 
 
 class YouTrackIssue(BaseModel):
-    id_readable: str = Field(alias="idReadable")
-    summary: str
-    created: MillisecondsDatetime
-    updated: MillisecondsDatetime
-    custom_fields: list[YouTrackCustomField] = Field(alias="customFields")
+    id = str
+    id_readable: str | None = Field(alias="idReadable", default=None)
+    summary: str | None = None
+    created: MillisecondsDatetime | None = None
+    updated: MillisecondsDatetime | None = None
+    custom_fields: list[YouTrackCustomField] = Field(alias="customFields", default_factory=list)
